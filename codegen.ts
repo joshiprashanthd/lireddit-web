@@ -4,12 +4,8 @@ const config: CodegenConfig = {
     schema: 'http://localhost:4000/graphql',
     documents: ['./src/graphql/**/*.graphql'],
     generates: {
-        './src/gql/': {
-            preset: 'client',
-            config: {
-                withHooks: true,
-            },
-            plugins: ['typescript-urql'],
+        './src/gql/graphql.tsx': {
+            plugins: ['typescript', 'typescript-operations', 'typescript-urql'],
         },
     },
 }

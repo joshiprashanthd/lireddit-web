@@ -8,6 +8,7 @@ import {
     CurrentUserDocument,
     CurrentUserQuery,
     LoginMutation,
+    LogoutMutation,
     RegisterMutation,
 } from '../gql/graphql'
 
@@ -30,7 +31,15 @@ const client = createClient({
         cacheExchange({
             updates: {
                 Mutation: {
-                    login: (_result, args, cache, info) => {
+                    logout: (_result, _, cache, __) => {
+                        betterUpdateQuery<LogoutMutation, CurrentUserQuery>(
+                            cache,
+                            { query: CurrentUserDocument },
+                            _result,
+                            () => ({ currentUser: null })
+                        )
+                    },
+                    login: (_result, _, cache, __) => {
                         // every query saves the last fetched data
                         // and whenever we query, the saved cached data is returned
                         // when login mutation gets called, we have to update the currentUser query's cache data too
@@ -55,7 +64,7 @@ const client = createClient({
                             }
                         )
                     },
-                    register: (_result, args, cache, info) => {
+                    register: (_result, _, cache, __) => {
                         betterUpdateQuery<RegisterMutation, CurrentUserQuery>(
                             cache,
                             { query: CurrentUserDocument },

@@ -6,8 +6,6 @@ interface NavBarProps {}
 
 const NavBar: React.FC<NavBarProps> = ({}) => {
     const [{ data, fetching, error }] = useCurrentUserQuery()
-
-    console.log(data)
     let body = null
 
     if (fetching) {

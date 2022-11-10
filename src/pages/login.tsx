@@ -3,25 +3,23 @@ import { Formik, Form } from 'formik'
 import { useRouter } from 'next/router'
 import InputField from '../components/InputField'
 import { Wrapper } from '../components/Wrapper'
-import { useRegisterMutation } from '../gql/graphql'
+import { useLoginMutation } from '../gql/graphql'
 import { toErrorMap } from '../utils/toErrorMap'
 
-interface RegisterProps {}
-
-const Register: React.FC<RegisterProps> = ({}: RegisterProps) => {
+const Login: React.FC<{}> = ({}) => {
     const router = useRouter()
-    const [, register] = useRegisterMutation()
+    const [, register] = useLoginMutation()
 
     return (
         <Wrapper variant="small">
-            <Heading mb={8}>Register</Heading>
+            <Heading mb={8}>Login</Heading>
             <Formik
                 initialValues={{ username: '', password: '' }}
                 onSubmit={async (values, { setErrors }) => {
-                    const response = await register(values)
-                    if (response.data?.register.errors)
-                        setErrors(toErrorMap(response.data.register.errors))
-                    else if (response.data?.register.user) router.push('/')
+                    const response = await register({ options: values })
+                    if (response.data?.login.errors)
+                        setErrors(toErrorMap(response.data.login.errors))
+                    else if (response.data?.login.user) router.push('/')
                 }}
             >
                 {({ isSubmitting }) => (
@@ -36,7 +34,7 @@ const Register: React.FC<RegisterProps> = ({}: RegisterProps) => {
                         </Box>
                         <Box mt={4}>
                             <Button type="submit" isLoading={isSubmitting}>
-                                Register
+                                Login
                             </Button>
                         </Box>
                     </Form>
@@ -46,4 +44,4 @@ const Register: React.FC<RegisterProps> = ({}: RegisterProps) => {
     )
 }
 
-export default Register
+export default Login

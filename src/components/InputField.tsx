@@ -1,10 +1,10 @@
+import { FieldHookConfig, useField } from 'formik'
 import {
     FormControl,
     FormErrorMessage,
     FormLabel,
     Input,
 } from '@chakra-ui/react'
-import { FieldHookConfig, useField } from 'formik'
 
 type InputFieldProps = FieldHookConfig<any> & {
     label: string

@@ -1,5 +1,6 @@
 import { Box, Button, Flex, Link, Text } from '@chakra-ui/react'
 import NextLink from 'next/link'
+import { Router, useRouter } from 'next/router'
 import { useCurrentUserQuery, useLogoutMutation } from '../gql/graphql'
 import { isServer } from '../utils/isServer'
 
@@ -10,6 +11,7 @@ const NavBar: React.FC<NavBarProps> = ({}) => {
         pause: isServer(), // dont fetch current user if server side rendering is there
     })
     const [{ fetching: logoutFetching }, logout] = useLogoutMutation()
+    const router = useRouter()
     let body = null
 
     if (fetching) {
@@ -37,7 +39,10 @@ const NavBar: React.FC<NavBarProps> = ({}) => {
                 <Button
                     variant="link"
                     color="white"
-                    onClick={() => logout({})}
+                    onClick={async () => {
+                        const response = await logout({})
+                        if (response.data?.logout) router.push('/')
+                    }}
                     isLoading={logoutFetching}
                 >
                     Log Out
@@ -47,7 +52,7 @@ const NavBar: React.FC<NavBarProps> = ({}) => {
     }
 
     return (
-        <Flex p={4} bg="darkslategrey">
+        <Flex position="sticky" top={0} bg="darkslategrey" p={4} zIndex={1}>
             <Box ml="auto">{body}</Box>
         </Flex>
     )

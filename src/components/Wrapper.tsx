@@ -1,16 +1,17 @@
-import { Box } from "@chakra-ui/react";
-import { ReactJSXElement } from "@emotion/react/types/jsx-namespace";
+import { Box } from '@chakra-ui/react'
+
+export type WrapperVariant = 'small' | 'regular'
 
 interface WrapperProps {
-  children: any;
-  variant?: "regular" | "small";
+    children: any
+    variant?: WrapperVariant
 }
 
 export const Wrapper: React.FC<WrapperProps> = ({
-  children,
-  variant = "regular",
+    children,
+    variant = 'regular',
 }) => (
-  <Box maxW={variant === "regular" ? "3xl" : "lg"} mx="auto" mt="8" w="100%">
-    {children}
-  </Box>
-);
+    <Box maxW={variant === 'regular' ? '3xl' : 'lg'} mx="auto" mt="8" w="100%">
+        {children}
+    </Box>
+)

@@ -1,21 +1,20 @@
 import { Box, Button, Center, Heading, Stack, Text } from '@chakra-ui/react'
-import { withUrqlClient } from 'next-urql'
 import { Layout } from '../components/Layout'
 import { usePostsQuery } from '../gql/graphql'
-import { createUrqlClient } from '../utils/createUrqlClient'
+import withApollo from '../utils/withApollo'
 
 const Index = () => {
-  const [{ data, fetching }] = usePostsQuery({
+  const { data, loading } = usePostsQuery({
     variables: {
       limit: 5,
     },
   })
-  if (!data && !fetching) return <Box>You got query failed for some reason</Box>
+  if (!data && !loading) return <Box>You got query failed for some reason</Box>
 
   return (
     <Layout>
       <Stack spacing={8}>
-        {!data && fetching ? (
+        {!data && loading ? (
           <div>Loading...</div>
         ) : (
           data!.posts.map((p) => {
@@ -37,6 +36,4 @@ const Index = () => {
   )
 }
 
-export default withUrqlClient(createUrqlClient, {
-  ssr: true,
-})(Index)
+export default withApollo({ ssr: true })(Index)

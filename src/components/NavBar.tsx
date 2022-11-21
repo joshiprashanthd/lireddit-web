@@ -5,14 +5,23 @@ import { useCurrentUserQuery, useLogoutMutation } from '../gql/graphql'
 import { isServer } from '../utils/isServer'
 
 const NavBar: React.FC = ({}) => {
-  const [{ data, fetching }] = useCurrentUserQuery({
-    pause: isServer(), // dont fetch current user if server side rendering is there
+  const { data, loading } = useCurrentUserQuery({
+    skip: isServer(),
   })
-  const [{ fetching: logoutFetching }, logout] = useLogoutMutation()
+  const [logout, { loading: logoutLoading }] = useLogoutMutation({
+    update: (cache) => {
+      cache.modify({
+        fields: {
+          currentUser: () => null,
+        },
+      })
+    },
+  })
+
   const router = useRouter()
   let body = null
 
-  if (fetching) {
+  if (loading) {
   } else if (!data?.currentUser) {
     body = (
       <Flex w="full">
@@ -36,20 +45,16 @@ const NavBar: React.FC = ({}) => {
           {data.currentUser.username}
         </Text>
         <Spacer />
-        <NextLink href="/create-post">
-          <Button variant="link" color="white">
-            Create Post
-          </Button>
-        </NextLink>
+
         <Box ml={4}>
           <Button
             variant="link"
             color="white"
             onClick={async () => {
-              const response = await logout({})
+              const response = await logout()
               if (response.data?.logout) router.push('/')
             }}
-            isLoading={logoutFetching}
+            isLoading={logoutLoading}
           >
             Log Out
           </Button>
@@ -61,6 +66,11 @@ const NavBar: React.FC = ({}) => {
   return (
     <Flex position="sticky" top={0} bg="grey" p={4} zIndex={1}>
       {body}
+      <NextLink href="/create-post">
+        <Button variant="link" color="white" ml={8}>
+          Create Post
+        </Button>
+      </NextLink>
     </Flex>
   )
 }

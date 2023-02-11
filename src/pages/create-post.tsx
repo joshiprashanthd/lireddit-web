@@ -1,18 +1,26 @@
 import { Box, Button, Heading } from '@chakra-ui/react'
 import { Form, Formik } from 'formik'
 import { useRouter } from 'next/router'
-import React from 'react'
 
 import InputField from '../components/InputField'
 import { Layout } from '../components/Layout'
-import { useCreatePostMutation } from '../gql/graphql'
+import { PostsDocument, useCreatePostMutation } from '../gql/graphql'
 import { useIsAuth } from '../utils/useIsAuth'
 import withApollo from '../utils/withApollo'
 
 const CreatePost = () => {
   const router = useRouter()
   useIsAuth()
-  const [createPost] = useCreatePostMutation()
+  const [createPost] = useCreatePostMutation({
+    refetchQueries: [
+      {
+        query: PostsDocument,
+        variables: {
+          limit: 5,
+        },
+      },
+    ],
+  })
   return (
     <Layout variant="small">
       <Heading mb={8}>Create Post</Heading>
@@ -43,4 +51,4 @@ const CreatePost = () => {
   )
 }
 
-export default withApollo()(CreatePost)
+export default withApollo(CreatePost)

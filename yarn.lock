@@ -3404,7 +3404,7 @@ isomorphic-fetch@^3.0.0:
     node-fetch "^2.6.1"
     whatwg-fetch "^3.4.1"
 
-isomorphic-unfetch@^3.1.0:
+isomorphic-unfetch@^3.0.0, isomorphic-unfetch@^3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/isomorphic-unfetch/-/isomorphic-unfetch-3.1.0.tgz#87341d5f4f7b63843d468438128cb087b7c3e98f"
   integrity sha512-geDJjpoZ8N0kWexiwkX8F9NkTsXhetLPVbZFQ+JTW239QNOwvB0gniuR1Wc6f0AMTn7/mFGyXvHTifrCp/GH8Q==
@@ -3696,10 +3696,12 @@ nanoid@^3.3.4:
   resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.3.4.tgz#730b67e3cd09e2deacf03c027c81c9d9dbc5e8ab"
   integrity sha512-MqBkQh/OHTS2egovRtLk45wEyNXwF+cokD+1YPf9u5VfJiRdAiRwB2froX5Co9Rh20xs4siNPm8naNotSD6RBw==
 
-next-apollo@^5.0.8:
-  version "5.0.8"
-  resolved "https://registry.yarnpkg.com/next-apollo/-/next-apollo-5.0.8.tgz#d6b665cb470338d1bcaa8e7ec6fa345757cd95a1"
-  integrity sha512-CzBOQAPXUJN5+I5mzBU7iATt2TzBpK0v3iEi4lZxG7K+NL5B7ZaaZ8+1kTfgIRl3BBF8Ijl4+FLYhYXR3VTawg==
+next-with-apollo@^5.3.0:
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/next-with-apollo/-/next-with-apollo-5.3.0.tgz#cf0de2ebebf6abbdc576837a79be083266715c1c"
+  integrity sha512-g3GdxSf68W6vK8iY8yMNQ+lLl6ZiS3N2oMUTtMhFASbeVl/XVBRxpo6hVQ7YFLEFaSEG4Vxga3f27b9S1a3Fxg==
+  dependencies:
+    isomorphic-unfetch "^3.0.0"
 
 next@latest:
   version "13.0.2"

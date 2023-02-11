@@ -63,4 +63,4 @@ const Login = () => {
   )
 }
 
-export default withApollo()(Login)
+export default withApollo(Login)

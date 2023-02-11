@@ -60,4 +60,4 @@ export const ForgotPassword = () => {
   )
 }
 
-export default withApollo()(ForgotPassword)
+export default withApollo(ForgotPassword)

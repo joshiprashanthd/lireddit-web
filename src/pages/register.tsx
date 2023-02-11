@@ -55,4 +55,4 @@ const Register = () => {
   )
 }
 
-export default withApollo()(Register)
+export default withApollo(Register)

@@ -2,11 +2,12 @@ import { Box, Button, Flex, Link, Spacer, Text } from '@chakra-ui/react'
 import NextLink from 'next/link'
 import { useRouter } from 'next/router'
 import { useCurrentUserQuery, useLogoutMutation } from '../gql/graphql'
-import { isServer } from '../utils/isServer'
+import { useIsServer } from '../utils/useIsServer'
 
 const NavBar: React.FC = ({}) => {
+  const isServer = useIsServer()
   const { data, loading } = useCurrentUserQuery({
-    skip: isServer(),
+    skip: isServer,
   })
   const [logout, { loading: logoutLoading }] = useLogoutMutation({
     update: (cache) => {
@@ -27,12 +28,12 @@ const NavBar: React.FC = ({}) => {
       <Flex w="full">
         <Spacer />
         <NextLink href="/login">
-          <Link mr={4} color="white">
+          <Link mr={4} color="white" as="div">
             Login
           </Link>
         </NextLink>
         <NextLink href="/register">
-          <Link mr={4} color="white">
+          <Link mr={4} color="white" as="div">
             Register
           </Link>
         </NextLink>

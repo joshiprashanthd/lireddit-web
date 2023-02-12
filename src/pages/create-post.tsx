@@ -23,7 +23,9 @@ const CreatePost = () => {
   })
   return (
     <Layout variant="small">
-      <Heading mb={8}>Create Post</Heading>
+      <Heading mb={8} color="white">
+        Create Post
+      </Heading>
       <Formik
         initialValues={{ title: '', text: '' }}
         onSubmit={async (values) => {
@@ -35,15 +37,29 @@ const CreatePost = () => {
       >
         {({ isSubmitting }) => (
           <Form>
-            <InputField name="title" label="Title" />
+            <InputField
+              name="title"
+              label="Title"
+              borderColor="gray.700"
+              borderWidth="2px"
+            />
             <Box mt={4}>
               <InputField name="text" label="Body" textarea />
             </Box>
-            <Box mt={4}>
-              <Button type="submit" isLoading={isSubmitting}>
-                Post
-              </Button>
-            </Box>
+            <Button
+              minW="lg"
+              mt={4}
+              type="submit"
+              isLoading={isSubmitting}
+              bg="purple.500"
+              color="white"
+              _hover={{
+                bg: 'purple.700',
+              }}
+              my={8}
+            >
+              Post
+            </Button>
           </Form>
         )}
       </Formik>

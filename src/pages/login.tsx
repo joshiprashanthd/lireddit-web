@@ -4,7 +4,7 @@ import NextLink from 'next/link'
 import { useRouter } from 'next/router'
 
 import InputField from '../components/InputField'
-import { Wrapper } from '../components/Wrapper'
+import { Layout } from '../components/Layout'
 import { useLoginMutation } from '../gql/graphql'
 import { toErrorMap } from '../utils/toErrorMap'
 import withApollo from '../utils/withApollo'
@@ -25,8 +25,10 @@ const Login = () => {
   })
 
   return (
-    <Wrapper variant="small">
-      <Heading mb={8}>Login</Heading>
+    <Layout variant="small">
+      <Heading mb={8} color="white">
+        Login
+      </Heading>
       <Formik
         initialValues={{ usernameOrEmail: '', password: '' }}
         onSubmit={async (values, { setErrors }) => {
@@ -45,21 +47,28 @@ const Login = () => {
             <InputField name="usernameOrEmail" label="Username or Email" />
             <Box mt={4}>
               <InputField name="password" label="Password" type="password" />
+              <NextLink href="forgot-password">
+                <Link color="blue.600">Forgot Password</Link>
+              </NextLink>
             </Box>
-            <Box mt={4}>
-              <Flex align="center" justify="space-between">
-                <Button type="submit" isLoading={isSubmitting}>
-                  Login
-                </Button>
-                <NextLink href="forgot-password">
-                  <Link color="blue.600">Forgot Password</Link>
-                </NextLink>
-              </Flex>
-            </Box>
+            <Button
+              mt={4}
+              minW="lg"
+              type="submit"
+              isLoading={isSubmitting}
+              bg="purple.500"
+              color="white"
+              _hover={{
+                bg: 'purple.700',
+              }}
+              my={8}
+            >
+              Login
+            </Button>
           </Form>
         )}
       </Formik>
-    </Wrapper>
+    </Layout>
   )
 }
 

@@ -15,9 +15,13 @@ export const VoteSection: React.FC<VoteSectionProps> = ({ post }) => {
         size={'xs'}
         aria-label="upvote"
         icon={<ChevronUpIcon />}
-        bgColor={post.voteStatus === 1 ? 'green' : undefined}
+        bgColor={post.voteStatus === 1 ? 'purple.500' : undefined}
         variant={post.voteStatus !== 1 ? 'outline' : undefined}
-        color={post.voteStatus === 1 ? 'white' : undefined}
+        color="white"
+        borderWidth="2px"
+        _hover={{
+          bg: 'purple.500',
+        }}
         onClick={() =>
           vote({
             variables: {
@@ -36,14 +40,18 @@ export const VoteSection: React.FC<VoteSectionProps> = ({ post }) => {
           })
         }
       />
-      <Box>{post.points}</Box>
+      <Text color="white">{post.points}</Text>
       <IconButton
         size={'xs'}
         aria-label="downvote"
         icon={<ChevronDownIcon />}
-        bgColor={post.voteStatus === -1 ? 'red' : undefined}
+        bgColor={post.voteStatus === -1 ? 'purple.500' : undefined}
         variant={post.voteStatus !== -1 ? 'outline' : undefined}
-        color={post.voteStatus === -1 ? 'white' : undefined}
+        color="white"
+        borderWidth="2px"
+        _hover={{
+          bg: 'purple.500',
+        }}
         onClick={() =>
           vote({
             variables: {

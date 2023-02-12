@@ -28,15 +28,28 @@ const Index = () => {
         {data &&
           data!.posts.posts.map((p) => {
             return (
-              <Box key={p.id} p={4} borderRadius="lg" boxShadow="lg">
+              <Box
+                key={p.id}
+                p={4}
+                borderRadius="lg"
+                boxShadow="lg"
+                borderColor="gray.500"
+                borderWidth="2px"
+              >
                 <HStack align="start">
                   <Box mr="4">
                     <VoteSection post={p} />
                   </Box>
                   <VStack align="start">
-                    <Heading fontSize="lg">{p.title}</Heading>
-                    <Text>posted by {p.creator.username}</Text>
-                    <Text mt={4}>{p.textSnippet}...</Text>
+                    <Heading fontSize="lg" color="white">
+                      {p.title}
+                    </Heading>
+                    <Text color="white" fontSize="xs">
+                      posted by {p.creator.username}
+                    </Text>
+                    <Text mt={4} color="white">
+                      {p.textSnippet}...
+                    </Text>
                   </VStack>
                 </HStack>
               </Box>
@@ -46,6 +59,11 @@ const Index = () => {
       {data && data.posts.hasMore && (
         <Center>
           <Button
+            bg="purple.500"
+            color="white"
+            _hover={{
+              bg: 'purple.700',
+            }}
             my={8}
             onClick={() =>
               fetchMore({

@@ -7,7 +7,7 @@ import { RCard } from '../components/core/RCard'
 
 import InputField from '../components/InputField'
 import { Layout } from '../components/Layout'
-import { useLoginMutation } from '../gql/graphql'
+import { PostsDocument, useLoginMutation } from '../gql/graphql'
 import { toErrorMap } from '../utils/toErrorMap'
 import withApollo from '../utils/withApollo'
 
@@ -24,6 +24,15 @@ const Login = () => {
         },
       })
     },
+    refetchQueries: [
+      {
+        query: PostsDocument,
+        variables: {
+          limit: 10,
+          cursor: null,
+        },
+      },
+    ],
   })
 
   return (

@@ -1,15 +1,17 @@
 import { FieldHookConfig, useField } from 'formik'
 import {
-  ChakraProps,
   FormControl,
   FormErrorMessage,
   FormLabel,
   Input,
   Textarea,
   Text,
+  InputProps,
+  TextareaProps,
 } from '@chakra-ui/react'
 
-type InputFieldProps = ChakraProps &
+type InputFieldProps = InputProps &
+  TextareaProps &
   FieldHookConfig<any> & {
     label: string
     placeholder?: string
@@ -25,9 +27,7 @@ const InputField: React.FC<InputFieldProps> = (props) => {
 
   return (
     <FormControl isInvalid={!!error}>
-      <FormLabel htmlFor={field.name}>
-        <Text color="white">{label}</Text>
-      </FormLabel>
+      <FormLabel htmlFor={field.name}>{label}</FormLabel>
       <InputOrTextarea
         {...field}
         variant="filled"
@@ -35,16 +35,15 @@ const InputField: React.FC<InputFieldProps> = (props) => {
         type={type}
         id={field.name}
         placeholder={placeholder}
-        color="white"
         borderColor="gray.500"
-        borderWidth="2px"
-        p="8px"
+        borderWidth={2}
+        p={2}
         focusBorderColor="purple.500"
         _hover={{
-          bg: 'none',
+          bgColor: 'none',
         }}
       />
-      {error ?? <FormErrorMessage color="red.500">{error}</FormErrorMessage>}
+      {error ?? <FormErrorMessage color="red.300">{error}</FormErrorMessage>}
     </FormControl>
   )
 }

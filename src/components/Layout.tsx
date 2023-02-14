@@ -13,6 +13,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, variant }) => {
     <Box bgColor="blackAlpha.800" minH="100vh">
       <NavBar />
       <Wrapper variant={variant}>{children}</Wrapper>
+      <Box py={8} />
     </Box>
   )
 }

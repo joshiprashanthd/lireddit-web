@@ -1,13 +1,10 @@
 import { ChevronDownIcon } from '@chakra-ui/icons'
 import {
-  Box,
-  Button,
   Flex,
   Heading,
+  HStack,
   Menu,
-  MenuButton,
   MenuDivider,
-  MenuItem,
   MenuList,
   Spacer,
 } from '@chakra-ui/react'
@@ -15,13 +12,16 @@ import NextLink from 'next/link'
 import { useRouter } from 'next/router'
 import { useCurrentUserQuery, useLogoutMutation } from '../gql/graphql'
 import { useIsServer } from '../utils/useIsServer'
+import { RButton } from './core/RButton'
+import { RMenuButton } from './core/RMenuButton'
+import { RMenuItem } from './core/RMenuItem'
 
 const NavBar: React.FC = ({}) => {
   const isServer = useIsServer()
   const { data, loading } = useCurrentUserQuery({
     skip: isServer,
   })
-  const [logout] = useLogoutMutation({
+  const [logout, { client }] = useLogoutMutation({
     update: (cache) => {
       cache.modify({
         fields: {
@@ -36,138 +36,101 @@ const NavBar: React.FC = ({}) => {
 
   if (!data?.currentUser) {
     body = (
-      <Flex w="full" alignItems="center">
-        <Heading fontSize="2xl" mx="auto" color="white">
-          LiReddit
-        </Heading>
-        <Spacer />
+      <HStack align="center">
         <NextLink href="/login">
-          <Button
-            mr={4}
+          <RButton
+            mr={2}
             bg="none"
-            color="white"
             _hover={{
               bg: 'purple.500',
             }}
           >
             Login
-          </Button>
+          </RButton>
         </NextLink>
         <NextLink href="/register">
-          <Button
+          <RButton
             mr={4}
             bg="none"
-            color="white"
             _hover={{
               bg: 'purple.500',
             }}
           >
             Register
-          </Button>
+          </RButton>
         </NextLink>
-      </Flex>
+      </HStack>
     )
   } else {
     body = (
-      <Flex w="full" alignItems="center">
+      <HStack align="center">
+        <NextLink href="/create-post">
+          <RButton mr={2} transparentBg>
+            Create Post
+          </RButton>
+        </NextLink>
         <Menu>
           {({ isOpen }) => (
             <>
-              <MenuButton
+              <RMenuButton
                 isActive={isOpen}
-                as={Button}
-                bg="none"
-                _hover={{
-                  bg: 'purple.500',
-                }}
-                _active={{
-                  bg: 'purple.500',
-                }}
-                color="white"
                 rightIcon={<ChevronDownIcon />}
+                transparentBg
               >
                 @{data.currentUser!.username}
-              </MenuButton>
+              </RMenuButton>
               <MenuList
-                borderRadius={8}
+                borderRadius="md"
                 bg="rgba(0, 0, 0, 0.5)"
-                boxShadow={'2xl'}
-                backdropBlur="10px"
-                backdropFilter="auto"
                 borderColor="gray.700"
-                borderWidth="2px"
-                p="4px"
+                borderWidth={2}
+                p={1}
               >
-                <MenuItem
-                  borderRadius="4px"
-                  bg="none"
-                  color="white"
-                  _hover={{
-                    bg: 'purple.500',
-                  }}
-                >
-                  Profile
-                </MenuItem>
+                <RMenuItem>Profile</RMenuItem>
                 <MenuDivider />
-                <MenuItem
-                  borderRadius="4px"
-                  color="white"
-                  _hover={{
-                    bg: 'purple.500',
-                  }}
-                >
-                  Settings
-                </MenuItem>
-                <MenuItem
+                <RMenuItem>Settings</RMenuItem>
+                <RMenuItem
                   onClick={async () => {
                     const response = await logout()
-                    if (response.data?.logout) router.push('/')
-                  }}
-                  borderRadius="4px"
-                  color="white"
-                  _hover={{
-                    bg: 'purple.500',
+                    if (response.data?.logout) {
+                      await client.resetStore()
+                      router.push('/')
+                    }
                   }}
                 >
                   Log Out
-                </MenuItem>
+                </RMenuItem>
               </MenuList>
             </>
           )}
         </Menu>
-        <Spacer />
-        <NextLink href="/create-post">
-          <Button
-            ml={8}
-            bg="none"
-            color="white"
-            _hover={{
-              bg: 'purple.500',
-            }}
-          >
-            Create Post
-          </Button>
-        </NextLink>
-      </Flex>
+      </HStack>
     )
   }
 
   return (
-    <Box
+    <Flex
       position="sticky"
+      justify="space-between"
       top={4}
       p={4}
       zIndex={1}
       mx={8}
-      borderRadius={16}
-      bg="rgba(0, 0, 0, 0.3)"
-      boxShadow={'2xl'}
-      backdropFilter="blur(10px)"
+      borderRadius="2xl"
+      bg="rgba(128,90,213, 0.3)"
+      backdropFilter="blur(8px)"
       borderColor="gray.700"
       borderWidth="2px"
+      alignItems="center"
     >
+      <NextLink href="/">
+        <Heading fontSize="2xl" mx="auto">
+          LiReddit
+        </Heading>
+      </NextLink>
+      <Spacer />
       {body}
-    </Box>
+    </Flex>
   )
 }
 

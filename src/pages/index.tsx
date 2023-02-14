@@ -1,16 +1,8 @@
 import { getDataFromTree } from '@apollo/client/react/ssr'
-import {
-  Box,
-  Button,
-  Center,
-  Heading,
-  HStack,
-  Stack,
-  Text,
-  VStack,
-} from '@chakra-ui/react'
+import { Box, Center, Stack } from '@chakra-ui/react'
+import { RButton } from '../components/core/RButton'
 import { Layout } from '../components/Layout'
-import { VoteSection } from '../components/VoteSection'
+import { Post } from '../components/Post'
 import { usePostsQuery } from '../gql/graphql'
 import withApollo from '../utils/withApollo'
 
@@ -24,47 +16,14 @@ const Index = () => {
 
   return (
     <Layout>
-      <Stack spacing={8}>
-        {data &&
-          data!.posts.posts.map((p) => {
-            return (
-              <Box
-                key={p.id}
-                p={4}
-                borderRadius="lg"
-                boxShadow="lg"
-                borderColor="gray.500"
-                borderWidth="2px"
-              >
-                <HStack align="start">
-                  <Box mr="4">
-                    <VoteSection post={p} />
-                  </Box>
-                  <VStack align="start">
-                    <Heading fontSize="lg" color="white">
-                      {p.title}
-                    </Heading>
-                    <Text color="white" fontSize="xs">
-                      posted by {p.creator.username}
-                    </Text>
-                    <Text mt={4} color="white">
-                      {p.textSnippet}...
-                    </Text>
-                  </VStack>
-                </HStack>
-              </Box>
-            )
-          })}
+      <Stack spacing={4}>
+        {data && data!.posts.posts.map((p) => <Post key={p.id} post={p} />)}
       </Stack>
       {data && data.posts.hasMore && (
         <Center>
-          <Button
-            bg="purple.500"
-            color="white"
-            _hover={{
-              bg: 'purple.700',
-            }}
-            my={8}
+          <RButton
+            mt={8}
+            transparentBg
             onClick={() =>
               fetchMore({
                 variables: {
@@ -75,7 +34,7 @@ const Index = () => {
             }
           >
             Load More
-          </Button>
+          </RButton>
         </Center>
       )}
     </Layout>

@@ -1,27 +1,27 @@
 import { ApolloCache, gql } from '@apollo/client'
 import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons'
-import { Box, IconButton, Text, VStack } from '@chakra-ui/react'
+import { IconButton, Stack, Text } from '@chakra-ui/react'
 import { PostSnippetFragment, useVoteMutation } from '../gql/graphql'
+import { RIconButton } from './core/RIconButton'
 
 interface VoteSectionProps {
-  post: PostSnippetFragment
+  post: Omit<PostSnippetFragment, 'textSnippet'>
+  horizontal?: boolean
 }
 
-export const VoteSection: React.FC<VoteSectionProps> = ({ post }) => {
+export const VoteSection: React.FC<VoteSectionProps> = ({
+  post,
+  horizontal,
+}) => {
   const [vote] = useVoteMutation()
   return (
-    <VStack>
-      <IconButton
-        size={'xs'}
+    <Stack direction={horizontal ? 'row' : 'column'} align="center">
+      <RIconButton
+        size="sm"
         aria-label="upvote"
         icon={<ChevronUpIcon />}
-        bgColor={post.voteStatus === 1 ? 'purple.500' : undefined}
+        transparentBg={post.voteStatus !== 1}
         variant={post.voteStatus !== 1 ? 'outline' : undefined}
-        color="white"
-        borderWidth="2px"
-        _hover={{
-          bg: 'purple.500',
-        }}
         onClick={() =>
           vote({
             variables: {
@@ -40,18 +40,13 @@ export const VoteSection: React.FC<VoteSectionProps> = ({ post }) => {
           })
         }
       />
-      <Text color="white">{post.points}</Text>
-      <IconButton
-        size={'xs'}
+      <Text>{post.points}</Text>
+      <RIconButton
+        size="sm"
         aria-label="downvote"
         icon={<ChevronDownIcon />}
-        bgColor={post.voteStatus === -1 ? 'purple.500' : undefined}
+        transparentBg={post.voteStatus !== -1}
         variant={post.voteStatus !== -1 ? 'outline' : undefined}
-        color="white"
-        borderWidth="2px"
-        _hover={{
-          bg: 'purple.500',
-        }}
         onClick={() =>
           vote({
             variables: {
@@ -70,13 +65,13 @@ export const VoteSection: React.FC<VoteSectionProps> = ({ post }) => {
           })
         }
       />
-    </VStack>
+    </Stack>
   )
 }
 
 const updatePointsInCache = (
   cache: ApolloCache<any>,
-  post: PostSnippetFragment,
+  post: VoteSectionProps['post'],
   points: number,
   voteStatus: number
 ) => {

@@ -94,7 +94,6 @@ const NavBar: React.FC = ({}) => {
                     const response = await logout()
                     if (response.data?.logout) {
                       await client.resetStore()
-                      router.reload()
                     }
                   }}
                 >

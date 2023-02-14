@@ -1,7 +1,9 @@
-import { Box, Button, Flex, Heading, Link } from '@chakra-ui/react'
+import { Box, Heading, Link } from '@chakra-ui/react'
 import { Form, Formik } from 'formik'
 import NextLink from 'next/link'
 import { useRouter } from 'next/router'
+import { RButton } from '../components/core/RButton'
+import { RCard } from '../components/core/RCard'
 
 import InputField from '../components/InputField'
 import { Layout } from '../components/Layout'
@@ -26,48 +28,45 @@ const Login = () => {
 
   return (
     <Layout variant="small">
-      <Heading mb={8} color="white">
-        Login
-      </Heading>
-      <Formik
-        initialValues={{ usernameOrEmail: '', password: '' }}
-        onSubmit={async (values, { setErrors }) => {
-          const response = await login({ variables: values })
-          if (response.data?.login.errors)
-            setErrors(toErrorMap(response.data.login.errors))
-          else if (response.data?.login.user) {
-            if (typeof router.query.next === 'string')
-              router.replace(router.query.next)
-            else router.replace('/')
-          }
-        }}
-      >
-        {({ isSubmitting }) => (
-          <Form>
-            <InputField name="usernameOrEmail" label="Username or Email" />
-            <Box mt={4}>
-              <InputField name="password" label="Password" type="password" />
-              <NextLink href="forgot-password">
-                <Link color="blue.600">Forgot Password</Link>
-              </NextLink>
-            </Box>
-            <Button
-              mt={4}
-              minW="lg"
-              type="submit"
-              isLoading={isSubmitting}
-              bg="purple.500"
-              color="white"
-              _hover={{
-                bg: 'purple.700',
-              }}
-              my={8}
-            >
-              Login
-            </Button>
-          </Form>
-        )}
-      </Formik>
+      <RCard>
+        <Heading mb={8}>Login</Heading>
+        <Formik
+          initialValues={{ usernameOrEmail: '', password: '' }}
+          onSubmit={async (values, { setErrors }) => {
+            const response = await login({ variables: values })
+            if (response.data?.login.errors)
+              setErrors(toErrorMap(response.data.login.errors))
+            else if (response.data?.login.user) {
+              if (typeof router.query.next === 'string')
+                router.replace(router.query.next)
+              else router.replace('/')
+            }
+          }}
+        >
+          {({ isSubmitting }) => (
+            <Form>
+              {/* //TODO: when username is not found, still it shows "username already taken" */}
+              <InputField name="usernameOrEmail" label="Username or Email" />
+              <Box mt={4}>
+                <InputField name="password" label="Password" type="password" />
+                <NextLink href="forgot-password">
+                  <Link as="div" color="purple.300">
+                    Forgot Password
+                  </Link>
+                </NextLink>
+              </Box>
+              <RButton
+                isLoading={isSubmitting}
+                minW="full"
+                type="submit"
+                mt={4}
+              >
+                Login
+              </RButton>
+            </Form>
+          )}
+        </Formik>
+      </RCard>
     </Layout>
   )
 }

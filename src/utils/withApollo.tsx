@@ -41,11 +41,10 @@ export default withApollo(
         //     : 'http://localhost:4000/graphql',
         uri: 'https://lireddit-prod-backend1.onrender.com/graphql',
         credentials: 'include',
-        headers: cookie
-          ? {
-              cookie,
-            }
-          : undefined,
+        headers: {
+          'content-type': 'application/json',
+          cookie,
+        },
       }),
       cache: new InMemoryCache({
         typePolicies: {

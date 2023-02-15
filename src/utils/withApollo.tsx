@@ -35,12 +35,13 @@ export default withApollo(
     return new ApolloClient({
       ssrMode: true,
       link: createHttpLink({
-        // uri:
-        //   process.env.NODE_ENV === 'production'
-        //     ? process.env.GRAPHQL_SERVER
-        //     : 'http://localhost:4000/graphql',
-        uri: 'https://lireddit-prod-backend1.onrender.com/graphql',
+        uri:
+          process.env.NODE_ENV === 'production'
+            ? process.env.GRAPHQL_SERVER
+            : 'http://localhost:4000/graphql',
+        // uri: 'https://lireddit-prod-backend1.onrender.com/graphql',
         credentials: 'include',
+
         headers: {
           'content-type': 'application/json',
           cookie,

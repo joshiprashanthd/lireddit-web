@@ -33,7 +33,10 @@ export default withApollo(
     return new ApolloClient({
       ssrMode: true,
       link: createHttpLink({
-        uri: 'http://localhost:4000/graphql',
+        uri:
+          process.env.NODE_ENV === 'production'
+            ? process.env.GRAPHQL_SERVER
+            : 'http://localhost:4000/graphql',
         credentials: 'include',
         headers: cookie
           ? {

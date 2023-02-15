@@ -18,7 +18,7 @@ import { RMenuItem } from './core/RMenuItem'
 
 const NavBar: React.FC = ({}) => {
   const isServer = useIsServer()
-  const { data, loading } = useCurrentUserQuery({
+  const { data, loading, error } = useCurrentUserQuery({
     skip: isServer,
   })
   const [logout, { client }] = useLogoutMutation({
@@ -31,10 +31,9 @@ const NavBar: React.FC = ({}) => {
     },
   })
 
-  const router = useRouter()
   let body = null
 
-  if (!data?.currentUser) {
+  if (!loading && data && !data.currentUser) {
     body = (
       <HStack align="center">
         <NextLink href="/login">
@@ -61,7 +60,8 @@ const NavBar: React.FC = ({}) => {
         </NextLink>
       </HStack>
     )
-  } else {
+  }
+  if (!loading && data && data.currentUser) {
     body = (
       <HStack align="center">
         <NextLink href="/create-post">

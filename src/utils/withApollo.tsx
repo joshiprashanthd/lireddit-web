@@ -30,6 +30,8 @@ export default withApollo(
 
     if (typeof window === 'undefined') cookie = ctx?.req?.headers.cookie
 
+    console.log('node env: ', process.env.NODE_ENV)
+    console.log('graphql server: ', process.env.GRAPHQL_SERVER)
     return new ApolloClient({
       ssrMode: true,
       link: createHttpLink({

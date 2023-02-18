@@ -25,12 +25,13 @@ const offsetFromCursor = (
 }
 
 export default withApollo(
-  ({ initialState, ctx }) => {
+  ({ initialState, ctx, headers }) => {
     let cookie
 
     if (typeof window === 'undefined') cookie = ctx?.req?.headers.cookie
 
     console.log('context: ', ctx)
+    console.log('headers: ', headers)
 
     return new ApolloClient({
       ssrMode: true,

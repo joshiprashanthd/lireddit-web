@@ -30,7 +30,7 @@ export default withApollo(
 
     if (typeof window === 'undefined') cookie = ctx?.req?.headers.cookie
 
-    console.log('headers: ', ctx?.req?.headers)
+    console.log('context: ', ctx)
 
     return new ApolloClient({
       ssrMode: true,
